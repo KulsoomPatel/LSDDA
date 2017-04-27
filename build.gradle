@@ -106,6 +106,15 @@ bower {
     'angular-bootstrap'('1.1.x') {
         source 'ui-bootstrap-tpls.js' >> '/angular/'
     }
+    'angular-route'('1.4.x') {
+        source 'angular-route.js' >> '/angular/'
+    }
+    'angular-animate'('1.4.x') {
+        source 'angular-animate.js' >> '/angular/'
+    }
+    'angular-touch'('1.4.x') {
+        source 'angular-touch.js' >> '/angular/'
+    }
     'bootstrap'('3.x.x') {
         source 'dist/css/bootstrap.css' >> '/bootstrap/'
     }
