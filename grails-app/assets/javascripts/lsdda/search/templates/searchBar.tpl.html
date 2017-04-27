@@ -2,7 +2,8 @@
     <div class="form-group">
         <label for="searchBar" class="col-md-1 control-label">Search</label>
         <div class="col-md-11">
-            <input type="text" class="form-control" id="searchBar" placeholder="Search BBC Programmes" ng-model="ctrl.searchTerms">
+            <input type="text" class="form-control" id="searchBar" placeholder="Search BBC Programmes"
+                   ng-model="ctrl.searchTerms">
         </div>
     </div>
 
@@ -12,3 +13,20 @@
         </div>
     </div>
 </form>
+<br>
+
+<table class="table" ng-show="ctrl.showTable">
+    <tr>
+        <th> TV Show</th>
+        <th> Start Time</th>
+        <th> End Time</th>
+
+    </tr>
+
+    <tr ng-repeat="programme in ctrl.results">
+        <td>{{programme.name + " " + programme.series + " " + programme.episode}}</td>
+        <td> {{programme.start_time}}</td>
+        <td> {{programme.end_time}}</td>
+
+    </tr>
+</table>

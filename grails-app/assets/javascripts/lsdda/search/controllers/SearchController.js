@@ -8,13 +8,19 @@ angular.module("lsdda.search")
 function SearchController(SearchDataFactory) {
 
     var vm = this;
-
     vm.searchTerms = undefined;
+    vm.searchData = searchData();
+    vm.showTable = false;
 
-    vm.searchData = function () {
 
-        SearchDataFactory.get({action: 'searchData', value: vm.searchTerms}, function (response) {
+
+
+
+    var searchData = function () {
+
+        SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
             vm.results = response.data;
+            vm.showTable = true;
         })
     }
 }
