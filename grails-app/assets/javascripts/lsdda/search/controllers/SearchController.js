@@ -9,14 +9,10 @@ function SearchController(SearchDataFactory) {
 
     var vm = this;
     vm.searchTerms = undefined;
-    vm.searchData = searchData();
     vm.showTable = false;
 
 
-
-
-
-    var searchData = function () {
+    vm.searchData = function () {
 
         SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
             vm.results = response.data;

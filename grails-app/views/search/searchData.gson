@@ -1,0 +1,8 @@
+import lsdda.Programme
+
+model {
+    Iterable<Programme> programmeIterable
+}
+
+System.out.println "Model is $binding.variables"
+json tmpl.programme(programmeIterable)

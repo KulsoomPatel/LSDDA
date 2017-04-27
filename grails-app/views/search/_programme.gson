@@ -1,0 +1,7 @@
+import lsdda.Programme
+
+model {
+    Programme programme
+}
+System.out.println "Model is $binding.variables"
+json g.render(programme, [deep: true])

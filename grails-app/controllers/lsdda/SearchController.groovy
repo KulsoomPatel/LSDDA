@@ -10,5 +10,7 @@ class SearchController {
     def searchData(String value) {
 
         def results = searchDBService.makeSearch(value)
+
+        respond results
     }
 }
