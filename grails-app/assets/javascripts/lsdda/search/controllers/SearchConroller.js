@@ -7,4 +7,8 @@ angular.module("lsdda.search")
 
 function SearchController() {
 
+    var vm = this;
+
+    vm.searchTerms = undefined;
+
 }
