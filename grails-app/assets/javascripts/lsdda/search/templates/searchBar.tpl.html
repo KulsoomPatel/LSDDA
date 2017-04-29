@@ -14,49 +14,53 @@
     </div>
 </form>
 <br>
+<div ng-show="ctrl.showTable">
+    <div ng-repeat="programme in ctrl.results | filter:search | offset: (ctrl.currentPage - 1) * ctrl.itemsPerPage | limitTo: ctrl.itemsPerPage">
 
-<div ng-repeat="programme in ctrl.results" ng-show="ctrl.showTable">
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-    <div class="panel panel-default">
-        <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
 
-            <div class="row">
-                <div class="col-md-6">
+                        <h3><b> {{programme.complete_title.name}}</b></h3>
+                    </div>
 
-                    <h3><b> {{programme.complete_title.name}}</b></h3>
+                    <div class="col-md-3">
+
+                        <h4> Channel: {{programme.service}} </h4>
+                    </div>
+                    <div class="col-md-3">
+
+                        <h4> {{programme.media_type}} show </h4>
+                    </div>
+
                 </div>
 
-                <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>{{programme.complete_title.series}} {{programme.complete_title.episode}} </h4>
+                    </div>
+                    <div class="col-md-3">
+                        <p><b> Available From : </b>{{programme.start_time * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'}}
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><b>Available Until : </b> {{programme.end_time * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'}}
+                        </p>
+                    </div>
 
-                    <h4> Channel: {{programme.service}} </h4>
-                </div>
-                <div class="col-md-3">
-
-                    <h4> Media Type: {{programme.media_type}} </h4>
                 </div>
 
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>{{programme.complete_title.series}} {{programme.complete_title.episode}} </h4>
-                </div>
-                <div class="col-md-3">
-                    <p> Available From : {{programme.start_time * 1000 | date:'MMMM Do YYYY, h:mm:ss a'}}</p>
-                </div>
-                <div class="col-md-3">
-                    <p> Until : {{programme.end_time * 1000 | date:'MMMM Do YYYY, h:mm:ss a'}}</p>
-                </div>
-
-            </div>
-
         </div>
+
     </div>
 
+    <div class="text-center">
+        <ul uib-pagination total-items="ctrl.totalItems" items-per-page="ctrl.itemsPerPage"
+            ng-model="ctrl.currentPage" max-size="20"></ul>
+    </div>
 
 </div>
-
-
-
-
 
