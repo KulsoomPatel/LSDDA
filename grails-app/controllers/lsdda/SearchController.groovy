@@ -11,6 +11,6 @@ class SearchController {
 
         def results = searchDBService.makeSearch(value)
 
-        respond results
+        respond results, model: [programmeCount: results.size()]
     }
 }

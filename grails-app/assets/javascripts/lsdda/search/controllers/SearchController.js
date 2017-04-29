@@ -15,7 +15,7 @@ function SearchController(SearchDataFactory) {
     vm.searchData = function () {
 
         SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
-            vm.results = response.data;
+            vm.results = response;
             vm.showTable = true;
         })
     }

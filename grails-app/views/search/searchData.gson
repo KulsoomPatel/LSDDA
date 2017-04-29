@@ -1,8 +1,8 @@
 import lsdda.Programme
 
 model {
-    Iterable<Programme> programmeIterable
+    Iterable<Programme> programmeList
 }
 
 System.out.println "Model is $binding.variables"
-json tmpl.programme(programmeIterable)
+json tmpl.programme(programmeList ?: [])

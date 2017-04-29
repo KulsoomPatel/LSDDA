@@ -6,11 +6,11 @@ class Programme {
 
     ObjectId id
     String pid
-    Long start_time
-    Long end_time
+    Double start_time
+    Double end_time
     String media_type
     String service
-    Long is_clip
+    Double is_clip
     ArrayList<String> tags
     CompleteTitle complete_title
     Categories categories

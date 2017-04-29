@@ -7,7 +7,7 @@ class SearchDBService {
 
     def makeSearch(String value) {
 
-        def programmes = Programme.findByService(value)
+        List<Programme> programmes = Programme.findAllByService(value)
 
         return programmes
 

@@ -2,6 +2,7 @@
 <html>
 <head>
     <asset:stylesheet src="bootstrap/bootstrap.css"/>
+    <asset:stylesheet src="custom.css"/>
     <title>Search Programmes</title>
 </head>
 
@@ -9,9 +10,10 @@
 
 <div class="container" ng-app="lsdda">
 
-    <div class="jumbotron">
-
-        <asset:image src="bbc-logo.jpg" class="img-responsive center-block"/>
+    <div class="row headerBlock">
+        <div class="col-md-12">
+            <asset:image src="bbc-logo.jpg" class="img-responsive center-block"/>
+        </div>
 
     </div>
 
