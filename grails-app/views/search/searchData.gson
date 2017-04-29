@@ -4,5 +4,4 @@ model {
     Iterable<Programme> programmeList
 }
 
-System.out.println "Model is $binding.variables"
 json tmpl.programme(programmeList ?: [])

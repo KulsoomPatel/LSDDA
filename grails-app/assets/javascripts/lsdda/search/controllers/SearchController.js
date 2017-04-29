@@ -12,7 +12,6 @@ function offset() {
     };
 }
 
-
 function SearchController(SearchDataFactory) {
 
     var vm = this;
@@ -20,7 +19,7 @@ function SearchController(SearchDataFactory) {
     vm.showTable = false;
     vm.currentPage = 1;
     vm.itemsPerPage = 8;
-    
+
     vm.searchData = function () {
 
         SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
@@ -28,5 +27,7 @@ function SearchController(SearchDataFactory) {
             vm.showTable = true;
             vm.totalItems = vm.results.length;
         })
-    }
+    };
+
+
 }

@@ -28,7 +28,7 @@
 
                     <div class="col-md-3">
 
-                        <h4> Channel: {{programme.service}} </h4>
+                        <h4>{{programme.service}} </h4>
                     </div>
                     <div class="col-md-3">
 
@@ -39,7 +39,14 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <h4>{{programme.complete_title.series}} {{programme.complete_title.episode}} </h4>
+
+                        <div ng-if="programme.complete_title.series != null"><h4><b> Series: </b>{{programme.complete_title.series}}
+                        </h4></div>
+
+                        <div ng-if="programme.complete_title.episode != null">
+                            <h4><b> Episode: </b>{{programme.complete_title.episode}}
+                            </h4></div>
+
                     </div>
                     <div class="col-md-3">
                         <p><b> Available From : </b>{{programme.start_time * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'}}
