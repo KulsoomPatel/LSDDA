@@ -14,6 +14,7 @@
 //= require_tree controllers
 //= require_tree domain
 //= require_tree templates
+//= require_tree filters
 
 angular.module("lsdda.search", [
     "lsdda.core",

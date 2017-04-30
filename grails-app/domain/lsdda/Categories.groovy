@@ -11,7 +11,6 @@ class Categories {
     static constraints = {
     }
 
-
     static mapWith = "mongo"
 
     static mapping = {

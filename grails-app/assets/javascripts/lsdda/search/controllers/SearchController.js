@@ -2,15 +2,7 @@
  * Created by Kulsoom on 27/04/2017.
  */
 angular.module("lsdda.search")
-    .controller("SearchController", SearchController)
-    .filter("offset", offset);
-
-
-function offset() {
-    return function (input, start) {
-        return input.slice(start);
-    };
-}
+    .controller("SearchController", SearchController);
 
 function SearchController(SearchDataFactory) {
 
