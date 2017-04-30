@@ -4,6 +4,7 @@
 //= require /angular/angular-touch
 //= require /angular/angular-animate
 //= require /angular/ui-bootstrap-tpls
+//= require /angular/loading-bar
 //= require /lsdda/core/lsdda.core
 //= require /lsdda/search/lsdda.search
 
@@ -14,6 +15,7 @@ angular.module("lsdda", [
     "ngAnimate",
     "ngTouch",
     "ngRoute",
-    "lsdda.search"
+    "lsdda.search",
+    "angular-loading-bar"
 
 ]);

@@ -115,6 +115,10 @@ bower {
     'angular-touch'('1.4.x') {
         source 'angular-touch.js' >> '/angular/'
     }
+    'angular-loading-bar' {
+        source 'build/loading-bar.min.js' >> '/angular/'
+        source 'build/loading-bar.min.css' >> '/stylesheet/'
+    }
     'bootstrap'('3.x.x') {
         source 'dist/css/bootstrap.css' >> '/bootstrap/'
     }
