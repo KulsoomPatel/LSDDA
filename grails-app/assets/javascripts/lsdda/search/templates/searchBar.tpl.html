@@ -12,12 +12,27 @@
         <div class="form-group">
             <label for="mediaType" class="col-md-1 control-label">Media</label>
             <div class="col-md-5">
-                <input type="mediaType" class="form-control" id="mediaType" placeholder="Select Service">
+                <select class="form-control" id="mediaType">
+                    <option ng-repeat="media in ctrl.mediaTypes"> {{media}}</option>
+                </select>
+            </div>
+            <label for="isClip" class="col-md-1 control-label">Clip</label>
+            <div class="col-md-5">
+                <select class="form-control" id="isClip">
+                    <option> Yes</option>
+                    <option> No</option>
+                </select>
             </div>
 
-            <label for="is_clip" class="col-md-1 control-label">Clip</label>
-            <div class="col-md-5">
-                <input type="is_clip" class="form-control" id="is_clip" placeholder="Select Clip">
+
+        </div>
+
+        <div class="form-group">
+            <label for="services" class="col-md-1 control-label">Service</label>
+            <div class="col-md-11">
+                <input name="services" id="services" type="text" placeholder="Enter a Service" ng-model="ctrl.selected"
+                       uib-typeahead="service for service in ctrl.services| filter:$viewValue | limitTo:8"
+                       class="form-control" autocomplete="off">
             </div>
         </div>
 

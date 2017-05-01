@@ -4,7 +4,7 @@
 angular.module("lsdda.search")
     .controller("SearchController", SearchController);
 
-function SearchController(SearchDataFactory) {
+function SearchController(SearchDataFactory, PopulateDataFactory) {
 
     var vm = this;
     vm.searchTerms = undefined;
@@ -12,6 +12,7 @@ function SearchController(SearchDataFactory) {
     vm.currentPage = 1;
     vm.itemsPerPage = 8;
     vm.displayOptions = false;
+    vm.selected = undefined;
 
     vm.searchData = function () {
 
@@ -25,9 +26,17 @@ function SearchController(SearchDataFactory) {
     vm.changeOptions = function () {
         if (vm.displayOptions === true) {
             vm.displayOptions = false;
-        } else if (vm.displayOptions ===false) {
+        } else if (vm.displayOptions === false) {
             vm.displayOptions = true;
         }
-    }
+    };
+
+    PopulateDataFactory.list({action: 'getBBCMediaType'}, function (response) {
+        vm.mediaTypes = response
+    });
+
+    PopulateDataFactory.list({action: 'getBBCServices'}, function (response) {
+        vm.services = response
+    });
 
 }
