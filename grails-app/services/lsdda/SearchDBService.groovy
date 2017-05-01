@@ -7,7 +7,8 @@ class SearchDBService {
 
     def makeSearch(String value) {
 
-        List<Programme> programmes = Programme.search(value)
+        def count = Programme.countHits(value)
+        List<Programme> programmes = Programme.searchTop(value, count)
 
         return programmes
 
