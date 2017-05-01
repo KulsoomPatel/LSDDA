@@ -1,0 +1,6 @@
+model {
+    Iterable<String> stringList
+}
+
+
+json(stringList)

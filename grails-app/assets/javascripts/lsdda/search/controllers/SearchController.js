@@ -11,6 +11,7 @@ function SearchController(SearchDataFactory) {
     vm.showTable = false;
     vm.currentPage = 1;
     vm.itemsPerPage = 8;
+    vm.displayOptions = false;
 
     vm.searchData = function () {
 
@@ -21,5 +22,12 @@ function SearchController(SearchDataFactory) {
         })
     };
 
+    vm.changeOptions = function () {
+        if (vm.displayOptions === true) {
+            vm.displayOptions = false;
+        } else if (vm.displayOptions ===false) {
+            vm.displayOptions = true;
+        }
+    }
 
 }

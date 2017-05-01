@@ -14,7 +14,6 @@ class Programme {
     ArrayList<String> tags
     CompleteTitle complete_title
     Categories categories
-    Double score
 
     static embedded = ['complete_title', 'categories']
     static constraints = {
