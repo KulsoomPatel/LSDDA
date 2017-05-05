@@ -7,6 +7,7 @@
 //= require /angular/angular-touch
 //= require /angular/angular-animate
 //= require /angular/ui-bootstrap-tpls
+//= require /angular/angularjs-dropdown-multiselect
 //= require /lsdda/core/lsdda.core
 //= require_self
 //= require routes
@@ -21,6 +22,7 @@ angular.module("lsdda.search", [
     "ui.bootstrap",
     "ngAnimate",
     "ngTouch",
-    "ngRoute"
+    "ngRoute",
+    "angularjs-dropdown-multiselect"
 
 ]);

@@ -5,12 +5,13 @@ import grails.converters.*
 
 class SearchController {
 
-    def searchDBService
+    def retrieveInfoService
 
     def searchData(String value) {
 
-        def results = searchDBService.makeSearch(value)
+        def results = retrieveInfoService.textSearch(value)
 
         respond results, model: [programmeCount: results.size()]
     }
+
 }

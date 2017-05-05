@@ -30,20 +30,29 @@
         <div class="form-group">
             <label for="services" class="col-md-1 control-label">Service</label>
             <div class="col-md-11">
-                <input name="services" id="services" type="text" placeholder="Enter a Service" ng-model="ctrl.selected"
+                <input name="services" id="services" type="text" placeholder="Enter a Service"
+                       ng-model="ctrl.selectedService"
                        uib-typeahead="service for service in ctrl.services| filter:$viewValue | limitTo:8"
                        class="form-control" autocomplete="off">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-1 control-label">Categories</label>
+            <div class="col-md-11">
+                <div ng-dropdown-multiselect="" options="ctrl.options" selected-model="ctrl.selectedCats"
+                     extra-settings="ctrl.catSettings"></div>
             </div>
         </div>
 
     </div>
 
     <div class="form-group">
-        <div class="col-md-1 col-md-offset-5">
-            <button type="submit" class="btn btn-default" ng-click="ctrl.searchData()">Search</button>
-        </div>
-        <div class="col-md-6">
-            <a class="button" ng-click="ctrl.changeOptions()"> Advanced Search</a>
+
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-default" ng-click="ctrl.searchData()">{{ctrl.searchText}}</button>
+            <a class="button" ng-click="ctrl.changeOptions()"> {{ctrl.optionsText}}</a>
         </div>
 
     </div>

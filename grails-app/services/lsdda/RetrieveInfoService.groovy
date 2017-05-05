@@ -1,20 +1,29 @@
 package lsdda
 
 import com.mongodb.MongoClient
+import com.mongodb.client.FindIterable
+import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Projections
+import com.mongodb.client.model.Sorts
 import grails.transaction.Transactional
+import org.bson.BSON
+import org.bson.conversions.Bson
+
 
 @Transactional
 class RetrieveInfoService {
 
     MongoClient mongo = new MongoClient()
     MongoDatabase db = mongo.getDatabase("bbcData")
+    MongoCollection collection = db.getCollection("programmeData")
 
     def getTheService() {
 
         MongoCursor<String> c =
-                db.getCollection("programmeData").distinct("service", String.class).iterator()
+                collection.distinct("service", String.class).iterator()
 
         return c.toList().sort()
     }
@@ -22,14 +31,14 @@ class RetrieveInfoService {
     def getTheMediaType() {
 
         MongoCursor<String> c =
-                db.getCollection("programmeData").distinct("media_type", String.class).iterator()
+                collection.distinct("media_type", String.class).iterator()
 
         return c.toList().sort()
     }
 
     def getTheTags() {
         MongoCursor<String> c =
-                db.getCollection("programmeData").distinct("tags", String.class).iterator()
+                collection.distinct("tags", String.class).iterator()
 
         return c.toList().sort()
     }
@@ -38,15 +47,15 @@ class RetrieveInfoService {
 
         LinkedHashSet<String> categories = new LinkedHashSet<String>()
         MongoCursor<String> c =
-                db.getCollection("programmeData").distinct("categories.category1", String.class).iterator()
+                collection.distinct("categories.category1", String.class).iterator()
         MongoCursor<String> d =
-                db.getCollection("programmeData").distinct("categories.category2", String.class).iterator()
+                collection.distinct("categories.category2", String.class).iterator()
         MongoCursor<String> e =
-                db.getCollection("programmeData").distinct("categories.category3", String.class).iterator()
+                collection.distinct("categories.category3", String.class).iterator()
         MongoCursor<String> f =
-                db.getCollection("programmeData").distinct("categories.category4", String.class).iterator()
+                collection.distinct("categories.category4", String.class).iterator()
         MongoCursor<String> g =
-                db.getCollection("programmeData").distinct("categories.category5", String.class).iterator()
+                collection.distinct("categories.category5", String.class).iterator()
 
         def allcats = [c.toList(), d.toList(), e.toList(), f.toList(), g.toList()]
 
@@ -59,5 +68,11 @@ class RetrieveInfoService {
         return categories.sort()
     }
 
+    def textSearch(String value) {
 
+        def count = Programme.countHits(value)
+        List<Programme> programmes = Programme.searchTop(value, count)
+
+        return programmes
+    }
 }

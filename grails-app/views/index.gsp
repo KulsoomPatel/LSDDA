@@ -33,6 +33,7 @@
 <asset:javascript src="lsdda/lsdda"/>
 <asset:javascript src="angular/ui-bootstrap-tpls.js"/>
 <asset:javascript src="angular/loading-bar.min.js"/>
+<asset:javascript src="angular/angularjs-dropdown-multiselect.min.js"/>
 
 </body>
 </html>
