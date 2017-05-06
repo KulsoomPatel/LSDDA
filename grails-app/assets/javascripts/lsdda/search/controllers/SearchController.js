@@ -11,10 +11,12 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
     vm.searchText = "Search";
     vm.optionsText = "Advanced Search";
     vm.showTable = false;
+    vm.media_type = undefined;
+    vm.is_clip = undefined;
+    vm.service = undefined;
     vm.currentPage = 1;
     vm.itemsPerPage = 8;
     vm.displayOptions = false;
-    vm.selectedService = undefined;
     vm.selectedCats = [];
     vm.catSettings = {
         enableSearch: true,
@@ -29,6 +31,17 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
     vm.searchData = function () {
 
         if (vm.displayOptions === true) {
+
+            SearchDataFactory.list({
+                action: 'advancedSearch',
+                is_clip: vm.is_clip,
+                media_type: vm.media_type,
+                service: vm.service
+            }, function (response) {
+                vm.results = response;
+                vm.showTable = true;
+                vm.totalItems = vm.results.length;
+            })
 
         } else if (vm.displayOptions === false) {
 

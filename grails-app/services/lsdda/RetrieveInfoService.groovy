@@ -1,5 +1,9 @@
 package lsdda
 
+import com.mongodb.BasicDBList
+import com.mongodb.BasicDBObject
+import com.mongodb.BasicDBObjectBuilder
+import com.mongodb.DBCursor
 import com.mongodb.MongoClient
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
@@ -10,7 +14,9 @@ import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Sorts
 import grails.transaction.Transactional
 import org.bson.BSON
+import org.bson.Document
 import org.bson.conversions.Bson
+import org.xml.sax.DocumentHandler
 
 
 @Transactional
@@ -74,5 +80,32 @@ class RetrieveInfoService {
         List<Programme> programmes = Programme.searchTop(value, count)
 
         return programmes
+    }
+
+    def advancedQuery(Double is_clip, String media_type, String service) {
+
+        List<BasicDBObject> fields = new ArrayList<BasicDBObject>();
+        Document document = new Document()
+
+        if (is_clip != null) {
+            BasicDBObject isClip = new BasicDBObject("is_clip", is_clip)
+            fields.add(isClip)
+        }
+
+        if (media_type != null) {
+            BasicDBObject mediaType = new BasicDBObject("media_type", media_type)
+            fields.add(mediaType)
+        }
+
+        if (service != null) {
+            BasicDBObject channel = new BasicDBObject("service", service)
+            fields.add(channel)
+        }
+
+        document.put("and", fields)
+
+        FindIterable<Programme> iterable = collection.find(document)
+
+        return iterable
     }
 }

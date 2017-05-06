@@ -1,0 +1,11 @@
+import com.mongodb.client.FindIterable
+import lsdda.Programme
+
+model {
+    FindIterable<Programme> findIterable
+
+}
+
+System.out.println "Model is $binding.variables"
+
+json g.render(findIterable)
