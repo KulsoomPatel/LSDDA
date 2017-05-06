@@ -84,27 +84,26 @@ class RetrieveInfoService {
 
     def advancedQuery(Double is_clip, String media_type, String service) {
 
-        List<BasicDBObject> fields = new ArrayList<BasicDBObject>();
-        Document document = new Document()
+        def criteria = [:]
 
         if (is_clip != null) {
             BasicDBObject isClip = new BasicDBObject("is_clip", is_clip)
-            fields.add(isClip)
+            criteria.put("is_clip", is_clip)
         }
 
         if (media_type != null) {
             BasicDBObject mediaType = new BasicDBObject("media_type", media_type)
-            fields.add(mediaType)
+            criteria.put("media_type", media_type)
         }
 
         if (service != null) {
             BasicDBObject channel = new BasicDBObject("service", service)
-            fields.add(channel)
+            criteria.put("service", service)
         }
 
-        document.put("and", fields)
 
-        FindIterable<Programme> iterable = collection.find(document)
+
+        FindIterable iterable = collection.find(criteria)
 
         return iterable
     }
