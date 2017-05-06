@@ -12,16 +12,16 @@
         <div class="form-group">
             <label for="mediaType" class="col-md-1 control-label">Media</label>
             <div class="col-md-5">
-                <select class="form-control" id="mediaType">
-                    <option ng-repeat="media in ctrl.mediaTypes" ng-model="ctrl.media_type"> {{media}}
+                <select name="mediaType" class="form-control" id="mediaType" ng-model="ctrl.mediaType">
+                    <option ng-repeat="media in ctrl.mediaTypes" value="{{media}}"> {{media}}
                     </option>
                 </select>
             </div>
             <label for="isClip" class="col-md-1 control-label">Clip</label>
             <div class="col-md-5">
-                <select class="form-control" id="isClip" ng-model="ctrl.is_clip">
-                    <option> Yes</option>
-                    <option> No</option>
+                <select name="isClip" class="form-control" id="isClip" ng-model="ctrl.isClip">
+                    <option value="1"> Yes</option>
+                    <option value="0"> No</option>
                 </select>
             </div>
 

@@ -87,17 +87,14 @@ class RetrieveInfoService {
         def criteria = [:]
 
         if (is_clip != null) {
-            BasicDBObject isClip = new BasicDBObject("is_clip", is_clip)
             criteria.put("is_clip", is_clip)
         }
 
         if (media_type != null) {
-            BasicDBObject mediaType = new BasicDBObject("media_type", media_type)
             criteria.put("media_type", media_type)
         }
 
         if (service != null) {
-            BasicDBObject channel = new BasicDBObject("service", service)
             criteria.put("service", service)
         }
 

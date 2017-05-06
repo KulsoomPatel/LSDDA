@@ -11,8 +11,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
     vm.searchText = "Search";
     vm.optionsText = "Advanced Search";
     vm.showTable = false;
-    vm.media_type = undefined;
-    vm.is_clip = undefined;
+    vm.mediaType = undefined;
+    vm.isClip = undefined;
     vm.service = undefined;
     vm.currentPage = 1;
     vm.itemsPerPage = 8;
@@ -34,8 +34,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
 
             SearchDataFactory.list({
                 action: 'advancedSearch',
-                is_clip: vm.is_clip,
-                media_type: vm.media_type,
+                is_clip: vm.isClip,
+                media_type: vm.mediaType,
                 service: vm.service
             }, function (response) {
                 vm.results = response;
