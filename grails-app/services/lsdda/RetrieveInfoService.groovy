@@ -82,7 +82,7 @@ class RetrieveInfoService {
         return programmes
     }
 
-    def advancedQuery(Double is_clip, String media_type, String service) {
+    def advancedQuery(String value, int is_clip, String media_type, String service) {
 
         def criteria = [:]
 

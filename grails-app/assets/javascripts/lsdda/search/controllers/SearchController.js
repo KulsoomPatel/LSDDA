@@ -18,14 +18,14 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
     vm.itemsPerPage = 8;
     vm.displayOptions = false;
     vm.selectedCats = [];
+    vm.selectedTags = [];
     vm.catSettings = {
         enableSearch: true,
         template: '{{option}}',
         checkBoxes: true,
         scrollableHeight: '300px',
         scrollable: true,
-        selectedToTop: true,
-        selectionLimit: 4
+        selectedToTop: true
     };
 
     vm.searchData = function () {
@@ -78,6 +78,10 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
 
     PopulateDataFactory.list({action: 'getTheBBCCategories'}, function (response) {
         vm.options = response;
+    });
+
+    PopulateDataFactory.list({action: 'getBBCTags'}, function (response) {
+        vm.tags = response;
     });
 
 
