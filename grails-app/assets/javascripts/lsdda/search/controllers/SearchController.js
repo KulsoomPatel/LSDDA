@@ -34,6 +34,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
 
             SearchDataFactory.list({
                 action: 'advancedSearch',
+                value: vm.searchTerms,
                 is_clip: vm.isClip,
                 media_type: vm.mediaType,
                 service: vm.service
@@ -83,6 +84,34 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
     PopulateDataFactory.list({action: 'getBBCTags'}, function (response) {
         vm.tags = response;
     });
+
+
+    /*The Date stuff*/
+    vm.format = 'dd-MMMM-yyyy';
+    vm.dt1 = new Date();
+    vm.dt2 = new Date();
+    vm.open1 = function () {
+        vm.popup1.opened = true;
+    };
+
+    vm.open2 = function () {
+        vm.popup2.opened = true;
+    };
+
+    vm.popup1 = {
+        opened: false
+    };
+
+    vm.popup2 = {
+        opened: false
+    };
+
+    vm.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(2020, 5, 22),
+        minDate: new Date(),
+        startingDay: 1
+    };
 
 
 }

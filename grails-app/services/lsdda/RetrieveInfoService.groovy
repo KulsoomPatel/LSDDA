@@ -86,6 +86,10 @@ class RetrieveInfoService {
 
         def criteria = [:]
 
+        if (value != null) {
+
+        }
+
         if (is_clip != null) {
             criteria.put("is_clip", is_clip)
         }
