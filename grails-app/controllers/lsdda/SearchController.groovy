@@ -14,9 +14,9 @@ class SearchController {
         respond results, model: [programmeCount: results.size()]
     }
 
-    def advancedSearch(String value, int is_clip, String media_type, String service) {
+    def advancedSearch(String value, int is_clip, String media_type, String service, Double start_time, Double end_time) {
 
-        def results = retrieveInfoService.advancedQuery(value, is_clip, media_type, service)
+        def results = retrieveInfoService.advancedQuery(value, is_clip, media_type, service, start_time, end_time)
 
         respond results, model: [programmeCount: results.size()]
     }

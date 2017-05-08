@@ -87,7 +87,7 @@ class RetrieveInfoService {
         return programmes
     }
 
-    def advancedQuery(String value, int is_clip, String media_type, String service) {
+    def advancedQuery(String value, int is_clip, String media_type, String service, Double start_time, Double end_time) {
 
         BasicDBObject criteria = new BasicDBObject();
 
@@ -105,6 +105,14 @@ class RetrieveInfoService {
         if (service != null) {
             criteria.put("service", service)
 
+        }
+
+        if (start_time != null) {
+            criteria.put("start_time", new BasicDBObject('$gte', start_time))
+        }
+
+        if (end_time != null) {
+            criteria.put("end_time", new BasicDBObject('$lte', end_time))
         }
 
         //and by default
