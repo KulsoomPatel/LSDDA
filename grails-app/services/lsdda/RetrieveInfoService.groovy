@@ -42,21 +42,16 @@ class RetrieveInfoService {
     def getTheCategories() {
 
         LinkedHashSet<String> categories = new LinkedHashSet<String>()
-        MongoCursor<String> c =
-                collection.distinct("categories.category1", String.class).iterator()
-        MongoCursor<String> d =
-                collection.distinct("categories.category2", String.class).iterator()
-        MongoCursor<String> e =
-                collection.distinct("categories.category3", String.class).iterator()
-        MongoCursor<String> f =
-                collection.distinct("categories.category4", String.class).iterator()
-        MongoCursor<String> g =
-                collection.distinct("categories.category5", String.class).iterator()
 
-        def allcats = [c.toList(), d.toList(), e.toList(), f.toList(), g.toList()]
+        def theCats = Categories.fields.size()
 
-        allcats.each { list ->
-            list.each { it ->
+        for (int i = 1; i <= theCats; i++) {
+
+            String identifier = "categories.category" + i
+            MongoCursor<String> c =
+                    collection.distinct(identifier, String.class).iterator()
+
+            c.each { it ->
                 categories.add(it)
             }
         }
@@ -102,8 +97,20 @@ class RetrieveInfoService {
             criteria.put("end_time", new BasicDBObject('$lte', end_time))
         }
 
+        //in the array
         if (tags != null) {
             criteria.put("tags", new BasicDBObject('$in', tags))
+        }
+
+        if (cats != null) {
+            //counts the number of categories available
+            def theCats = Categories.fields.size()
+
+            for (int i = 1; i <= theCats; i++) {
+                String identifier = "categories.category" + i
+
+                
+            }
         }
 
         //and by default

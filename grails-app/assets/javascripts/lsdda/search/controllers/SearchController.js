@@ -40,7 +40,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
                 service: vm.service,
                 start_time: vm.dt1.getTime() / 1000,
                 end_time: vm.dt2.getTime() / 1000,
-                tags: vm.selectedTags
+                tags: vm.selectedTags,
+                cats: vm.selectedCats
             }, function (response) {
                 vm.results = response;
                 vm.showTable = true;
