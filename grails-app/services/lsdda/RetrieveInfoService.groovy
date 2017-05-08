@@ -4,6 +4,7 @@ import com.mongodb.BasicDBList
 import com.mongodb.BasicDBObject
 import com.mongodb.BasicDBObjectBuilder
 import com.mongodb.DBCursor
+import com.mongodb.DBObject
 import com.mongodb.MongoClient
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
@@ -14,7 +15,11 @@ import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Sorts
 import grails.transaction.Transactional
 import org.bson.BSON
+import org.bson.BsonDocument
+import org.bson.BsonType
+import org.bson.BsonValue
 import org.bson.Document
+import org.bson.codecs.configuration.CodecRegistry
 import org.bson.conversions.Bson
 import org.xml.sax.DocumentHandler
 
@@ -84,12 +89,11 @@ class RetrieveInfoService {
 
     def advancedQuery(String value, int is_clip, String media_type, String service) {
 
-        def criteria = [:]
+        BasicDBObject criteria = new BasicDBObject();
 
         if (value != null) {
-
+            criteria.put('$text', new BasicDBObject('$search', value))
         }
-
         if (is_clip != null) {
             criteria.put("is_clip", is_clip)
         }
@@ -100,10 +104,10 @@ class RetrieveInfoService {
 
         if (service != null) {
             criteria.put("service", service)
+
         }
 
-
-
+        //and by default
         FindIterable iterable = collection.find(criteria)
 
         return iterable
