@@ -23,6 +23,8 @@ import org.bson.codecs.configuration.CodecRegistry
 import org.bson.conversions.Bson
 import org.xml.sax.DocumentHandler
 
+import java.security.interfaces.DSAPublicKey
+
 
 @Transactional
 class RetrieveInfoService {
