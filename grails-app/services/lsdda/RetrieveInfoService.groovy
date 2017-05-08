@@ -1,29 +1,12 @@
 package lsdda
 
-import com.mongodb.BasicDBList
 import com.mongodb.BasicDBObject
-import com.mongodb.BasicDBObjectBuilder
-import com.mongodb.DBCursor
-import com.mongodb.DBObject
 import com.mongodb.MongoClient
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.MongoDatabase
-import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Projections
-import com.mongodb.client.model.Sorts
 import grails.transaction.Transactional
-import org.bson.BSON
-import org.bson.BsonDocument
-import org.bson.BsonType
-import org.bson.BsonValue
-import org.bson.Document
-import org.bson.codecs.configuration.CodecRegistry
-import org.bson.conversions.Bson
-import org.xml.sax.DocumentHandler
-
-import java.security.interfaces.DSAPublicKey
 
 
 @Transactional
@@ -89,7 +72,7 @@ class RetrieveInfoService {
         return programmes
     }
 
-    def advancedQuery(String value, int is_clip, String media_type, String service, Double start_time, Double end_time) {
+    def advancedQuery(String value, int is_clip, String media_type, String service, Double start_time, Double end_time, String[] tags, String[] cats) {
 
         BasicDBObject criteria = new BasicDBObject();
 
@@ -110,11 +93,17 @@ class RetrieveInfoService {
         }
 
         if (start_time != null) {
+            //greater than or equal to
             criteria.put("start_time", new BasicDBObject('$gte', start_time))
         }
 
         if (end_time != null) {
+            //less than or equal to
             criteria.put("end_time", new BasicDBObject('$lte', end_time))
+        }
+
+        if (tags != null) {
+            criteria.put("tags", new BasicDBObject('$in', tags))
         }
 
         //and by default

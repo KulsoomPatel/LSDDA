@@ -31,7 +31,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
     vm.searchData = function () {
 
         if (vm.displayOptions === true) {
-            console.log(vm.dt1.getTime()/ 1000);
+
             SearchDataFactory.list({
                 action: 'advancedSearch',
                 value: vm.searchTerms,
@@ -39,7 +39,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
                 media_type: vm.mediaType,
                 service: vm.service,
                 start_time: vm.dt1.getTime() / 1000,
-                end_time: vm.dt2.getTime() / 1000
+                end_time: vm.dt2.getTime() / 1000,
+                tags: vm.selectedTags
             }, function (response) {
                 vm.results = response;
                 vm.showTable = true;
