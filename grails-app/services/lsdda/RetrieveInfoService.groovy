@@ -45,7 +45,9 @@ class RetrieveInfoService {
 
         LinkedHashSet<String> categories = new LinkedHashSet<String>()
 
-        def theCats = Categories.fields.size()
+        def catClass = new Categories()
+        //minus 1 as the ID is included.
+        def theCats = catClass.properties.size() - 1
 
         for (int i = 1; i <= theCats; i++) {
 
@@ -104,16 +106,18 @@ class RetrieveInfoService {
             criteria.put("tags", new BasicDBObject('$in', tags))
         }
 
-        /*  if (cats != null) {
-              //counts the number of categories available
-              def theCats = Categories.fields.size()
+        if (cats.length != 0) {
 
-              for (int i = 1; i <= theCats; i++) {
-                  String identifier = "categories.category" + i
+            def catClass = new Categories()
+            //minus 1 as the ID is included.
+            def theCats = catClass.properties.size() - 1
+
+            for (int i = 1; i <= theCats; i++) {
+                String identifier = "categories.category" + i
 
 
-              }
-          }*/
+            }
+        }
 
         //and by default
         FindIterable iterable = collection.find(criteria)
