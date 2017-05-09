@@ -1,0 +1,14 @@
+import com.mongodb.client.FindIterable
+import lsdda.Programme
+
+model {
+    FindIterable<Programme> findIterableImpl
+}
+
+System.out.println "Model is $binding.variables"
+
+json(
+        findIterableImpl.each {
+            it
+        }
+)

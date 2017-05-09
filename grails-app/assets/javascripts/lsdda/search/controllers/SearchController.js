@@ -51,13 +51,13 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
         } else if (vm.displayOptions === false) {
 
             SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
-                vm.results = response;
                 vm.showTable = true;
+                vm.results = response;
                 vm.totalItems = vm.results.length;
+                vm.hello = "Hello"
             })
 
         }
-
 
     };
 

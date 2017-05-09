@@ -130,4 +130,16 @@ class RetrieveInfoService {
 
     }
 
+    def getRelatedProgrammes(String title) {
+
+        BasicDBObject criteria = new BasicDBObject();
+
+        criteria.put("complete_title.name", title)
+
+        FindIterable iterable = collection.find(criteria)
+
+        return iterable
+
+    }
+
 }

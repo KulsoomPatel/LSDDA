@@ -10,8 +10,19 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
 
     DetailServiceFactory.show({action: 'detailedProgramme', pid: $routeParams.pid}, function (response) {
         vm.result = response;
-        vm.checkClip(vm.result.is_clip)
+        vm.checkClip(vm.result.is_clip);
+        vm.otherProgrammes()
     });
+
+    vm.otherProgrammes = function () {
+        DetailServiceFactory.list({
+            action: 'getRelatedProgrammes',
+            title: vm.result.complete_title.name
+        }, function (response) {
+            vm.programmeResults = response;
+
+        });
+    };
 
 
     vm.checkClip = function (clip) {
@@ -24,5 +35,10 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
             vm.clipType = "No";
         }
 
+    };
+
+    vm.detailedView = function (pid) {
+
+        $location.path("/" + pid);
     }
 }

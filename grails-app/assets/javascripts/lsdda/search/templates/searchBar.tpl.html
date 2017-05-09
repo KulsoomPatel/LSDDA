@@ -99,6 +99,12 @@
 
 <br>
 <div ng-show="ctrl.showTable">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3><b>{{ctrl.totalItems}}</b> Results Found</h3>
+        </div>
+    </div>
     <div ng-repeat="programme in ctrl.results | filter:search | offset: (ctrl.currentPage - 1) * ctrl.itemsPerPage | limitTo: ctrl.itemsPerPage">
 
         <div class="panel panel-default">

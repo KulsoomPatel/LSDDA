@@ -3,5 +3,4 @@ import lsdda.Programme
 model {
     Iterable<Programme> programmeList
 }
-
 json tmpl.programme(programmeList ?: [])
