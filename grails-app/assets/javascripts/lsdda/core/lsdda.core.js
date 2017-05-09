@@ -1,10 +1,11 @@
 //= wrapped
 //= require /angular/angular
 //= require /angular/angular-resource
+//= require /angular/angular-route
 //= require_self
 //= require_tree services
 
-angular.module("lsdda.core", ['ngResource'])
+angular.module("lsdda.core", ['ngResource', 'ngRoute'])
     .constant("contextPath", window.contextPath)
     .config(config);
 

@@ -24,4 +24,5 @@ class SearchController {
         respond results, model: [programmeCount: results.size()]
     }
 
+
 }

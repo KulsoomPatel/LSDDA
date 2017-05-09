@@ -1,0 +1,7 @@
+import org.bson.Document
+
+model {
+    Document programme
+}
+
+json(programme)

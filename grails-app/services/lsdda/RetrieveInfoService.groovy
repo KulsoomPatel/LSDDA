@@ -1,5 +1,6 @@
 package lsdda
 
+import com.mongodb.BasicDBList
 import com.mongodb.BasicDBObject
 import com.mongodb.MongoClient
 import com.mongodb.client.FindIterable
@@ -7,6 +8,7 @@ import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.MongoDatabase
 import grails.transaction.Transactional
+import org.bson.Document
 
 
 @Transactional
@@ -98,24 +100,34 @@ class RetrieveInfoService {
         }
 
         //in the array
-        if (tags != null) {
+        if (tags.length != 0) {
             criteria.put("tags", new BasicDBObject('$in', tags))
         }
 
-        if (cats != null) {
-            //counts the number of categories available
-            def theCats = Categories.fields.size()
+        /*  if (cats != null) {
+              //counts the number of categories available
+              def theCats = Categories.fields.size()
 
-            for (int i = 1; i <= theCats; i++) {
-                String identifier = "categories.category" + i
+              for (int i = 1; i <= theCats; i++) {
+                  String identifier = "categories.category" + i
 
-                
-            }
-        }
+
+              }
+          }*/
 
         //and by default
         FindIterable iterable = collection.find(criteria)
 
         return iterable
     }
+
+    def getProgrammeData(String pid) {
+
+        BasicDBObject criteria = new BasicDBObject("pid", pid)
+        Document programme = collection.findOne(criteria)
+
+        return programme
+
+    }
+
 }

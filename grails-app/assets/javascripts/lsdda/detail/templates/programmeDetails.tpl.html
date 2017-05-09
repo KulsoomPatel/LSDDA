@@ -1,0 +1,18 @@
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center"><b>{{ctrl.result.complete_title.name}} </b></h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6"> </div>
+
+        <div ng-if="ctrl.result.complete_title.series != null"><h3><b> Series: </b>{{ctrl.result.complete_title.series}}
+        </h3></div>
+
+        <div ng-if="ctrl.result.complete_title.episode != null">
+            <h3><b> Episode: </b>{{ctrl.result.complete_title.episode}}
+            </h3></div>
+    </div>
+</div>

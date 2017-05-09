@@ -2,9 +2,9 @@
  * Created by Kulsoom on 27/04/2017.
  */
 angular.module("lsdda.search")
-    .controller("SearchController", SearchController);
+    .controller("SearchController", ["SearchDataFactory", "PopulateDataFactory", "$routeParams", "$location", SearchController]);
 
-function SearchController(SearchDataFactory, PopulateDataFactory) {
+function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, $location) {
 
     var vm = this;
     vm.searchTerms = undefined;
@@ -116,5 +116,9 @@ function SearchController(SearchDataFactory, PopulateDataFactory) {
         startingDay: 1
     };
 
+    vm.detailedView = function (pid) {
+
+        $location.path("/" + pid);
+    }
 
 }
