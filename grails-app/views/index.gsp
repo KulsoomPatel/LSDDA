@@ -10,6 +10,7 @@
 <body>
 
 <div class="container" ng-app="lsdda">
+    <a href="/#/">
 
     <div class="row headerBlock">
         <div class="col-md-12">
@@ -17,7 +18,7 @@
         </div>
 
     </div>
-
+</a>
 </br>
 
     <div ng-view>

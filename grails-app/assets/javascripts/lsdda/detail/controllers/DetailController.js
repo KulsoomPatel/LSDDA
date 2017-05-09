@@ -6,9 +6,22 @@ angular.module("lsdda.detail")
 
 function DetailController(DetailServiceFactory, $routeParams, $location) {
     var vm = this;
+    vm.clipType = undefined;
 
     DetailServiceFactory.show({action: 'detailedProgramme', pid: $routeParams.pid}, function (response) {
         vm.result = response;
         vm.hello = "Hello World"
     });
+
+
+    vm.checkClip = function (clip) {
+        if (clip === 1) {
+
+            vm.clipType = "Yes";
+
+        } else if (clip === 0) {
+
+            vm.clipType = "No";
+        }
+    }
 }
