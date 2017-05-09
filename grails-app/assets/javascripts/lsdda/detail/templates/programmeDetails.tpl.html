@@ -37,8 +37,23 @@
         </div>
 
         <div class="col-md-6">
-            <p><b>Clip : </b> {{ctrl.result.is_clip}}
+            <p><b>Clip : </b> {{ctrl.clipType}}
             </p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div ng-if="ctrl.result.tags != null"><p><b> Tags: </b>{{ctrl.result.tags.join(", ")}}
+            </p></div>
+
+            <div ng-if="ctrl.result.categories != null"><p><b> Categories: </b></p>
+                <ul ng-repeat="category in ctrl.result.categories">
+                    <li><p>{{category.join(", ")}}</p></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
