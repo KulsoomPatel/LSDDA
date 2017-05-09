@@ -7,6 +7,8 @@ angular.module("lsdda.detail")
 function DetailController(DetailServiceFactory, $routeParams, $location) {
     var vm = this;
     vm.clipType = undefined;
+    vm.currentPage = 1;
+    vm.itemsPerPage = 4;
 
     DetailServiceFactory.show({action: 'detailedProgramme', pid: $routeParams.pid}, function (response) {
         vm.result = response;
@@ -20,7 +22,7 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
             title: vm.result.complete_title.name
         }, function (response) {
             vm.programmeResults = response;
-
+            vm.totalItems = vm.programmeResults.length;
         });
     };
 
