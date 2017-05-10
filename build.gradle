@@ -124,6 +124,14 @@ bower {
     'bootstrap'('3.x.x') {
         source 'dist/css/bootstrap.css' >> '/bootstrap/'
     }
+    'moment' {
+        source 'moment.js' >> '/moment/'
+    }
+    'angular-bootstrap-calendar'('0.29.0') {
+        source 'dist/js/angular-bootstrap-calendar-tpls.js' >> '/angular/'
+        source 'dist/css/angular-bootstrap-calendar.css' >> '/stylesheet/'
+    }
+
 }
 
 karma {
