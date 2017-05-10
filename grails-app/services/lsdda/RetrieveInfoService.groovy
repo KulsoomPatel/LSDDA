@@ -118,7 +118,7 @@ class RetrieveInfoService {
             for (int i = 1; i <= theCats; i++) {
                 String identifier = "categories.category" + i
 
-                orList.add(new BasicDBObject(identifier, new BasicDBObject('$in', cats)))
+                orList.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
             }
             andList.add(new BasicDBObject('$or', orList))
             criteria.put('$and', andList)

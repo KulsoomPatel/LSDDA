@@ -36,6 +36,7 @@
 <asset:javascript src="angular/ui-bootstrap-tpls.js"/>
 <asset:javascript src="angular/loading-bar.min.js"/>
 <asset:javascript src="angular/angularjs-dropdown-multiselect.min.js"/>
+<asset:javascript src="moment/moment.js"/>
 <asset:javascript src="angular/angular-bootstrap-calendar-tpls.js"/>
 
 </body>
