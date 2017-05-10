@@ -46,6 +46,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
                 vm.results = response;
                 vm.showTable = true;
                 vm.totalItems = vm.results.length;
+                vm.theCalender();
             })
 
         } else if (vm.displayOptions === false) {
@@ -54,7 +55,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
                 vm.showTable = true;
                 vm.results = response;
                 vm.totalItems = vm.results.length;
-                vm.hello = "Hello"
+                vm.theCalender();
             })
 
         }
@@ -121,51 +122,64 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
         $location.path("/" + pid);
     };
 
-    //CALENDER STUFF
-    vm.cellIsOpen = true;
-    vm.calendarView = 'month';
-    vm.viewDate = new Date();
-    vm.events = [
-        {
-            title: 'My event title', // The title of the event
-/*            startsAt: new Date(2013, 5, 1, 1), // A javascript date object for when the event starts
-            endsAt: new Date(2014, 8, 26, 15), // Optional - a javascript date object for when the event ends*/
-            color: { // can also be calendarConfig.colorTypes.warning for shortcuts to the deprecated event types
-                primary: '#e3bc08', // the primary event color (should be darker than secondary)
-                secondary: '#fdf1ba' // the secondary event color (should be lighter than primary)
-            },
-            actions: [{ // an array of actions that will be displayed next to the event title
-                label: '<i class=\'glyphicon glyphicon-pencil\'></i>', // the label of the action
-                cssClass: 'edit-action' // a CSS class that will be added to the action element so you can implement custom styling
 
-            }],
-            incrementsBadgeTotal: true, //If set to false then will not count towards the badge total amount on the month and year view
-            cssClass: 'a-css-class-name', //A CSS class (or more, just separate with spaces) that will be added to the event when it is displayed on each view. Useful for marking an event as selected / active etc
-            allDay: false // set to true to display the event as an all day event on the day view
-        }
-    ];
+    vm.theCalender = function () {
 
-    vm.calenderTitle = "Schedule of Programmes";
 
-    vm.timespanClicked = function(date, cell) {
+        //CALENDER STUFF
+        vm.cellIsOpen = true;
+        vm.calendarView = 'month';
+        vm.viewDate = new Date();
 
-        if (vm.calendarView === 'month') {
-            if ((vm.cellIsOpen && moment(date).startOf('day').isSame(moment(vm.viewDate).startOf('day'))) || cell.events.length === 0 || !cell.inMonth) {
-                vm.cellIsOpen = false;
-            } else {
-                vm.cellIsOpen = true;
-                vm.viewDate = date;
+        var allEvents = [];
+        angular.forEach(vm.results, function (value, key) {
+            var show = value.complete_title.name + " " + value.complete_title.series + " " + value.complete_title.episode;
+            var theEventobj = {
+                title: show, // The title of the event
+                startsAt: new Date(value.start_time * 1000), // A javascript date object for when the event starts
+                endsAt: new Date(value.end_time * 1000), // Optional - a javascript date object for when the event ends
+                color: { // can also be calendarConfig.colorTypes.warning for shortcuts to the deprecated event types
+                    primary: '#e3bc08', // the primary event color (should be darker than secondary)
+                    secondary: '#fdf1ba' // the secondary event color (should be lighter than primary)
+                },
+                actions: [{ // an array of actions that will be displayed next to the event title
+                    label: '<i class=\'glyphicon glyphicon-pencil\'></i>', // the label of the action
+                    cssClass: 'edit-action' // a CSS class that will be added to the action element so you can implement custom styling
+
+                }],
+                incrementsBadgeTotal: true, //If set to false then will not count towards the badge total amount on the month and year view
+                cssClass: 'a-css-class-name', //A CSS class (or more, just separate with spaces) that will be added to the event when it is displayed on each view. Useful for marking an event as selected / active etc
+                allDay: false // set to true to display the event as an all day event on the day view
+            };
+
+
+            allEvents.push(theEventobj)
+        });
+
+
+        vm.events = allEvents;
+
+        vm.calenderTitle = "Schedule of Programmes";
+
+        vm.timespanClicked = function (date, cell) {
+
+            if (vm.calendarView === 'month') {
+                if ((vm.cellIsOpen && moment(date).startOf('day').isSame(moment(vm.viewDate).startOf('day'))) || cell.events.length === 0 || !cell.inMonth) {
+                    vm.cellIsOpen = false;
+                } else {
+                    vm.cellIsOpen = true;
+                    vm.viewDate = date;
+                }
+            } else if (vm.calendarView === 'year') {
+                if ((vm.cellIsOpen && moment(date).startOf('month').isSame(moment(vm.viewDate).startOf('month'))) || cell.events.length === 0) {
+                    vm.cellIsOpen = false;
+                } else {
+                    vm.cellIsOpen = true;
+                    vm.viewDate = date;
+                }
             }
-        } else if (vm.calendarView === 'year') {
-            if ((vm.cellIsOpen && moment(date).startOf('month').isSame(moment(vm.viewDate).startOf('month'))) || cell.events.length === 0) {
-                vm.cellIsOpen = false;
-            } else {
-                vm.cellIsOpen = true;
-                vm.viewDate = date;
-            }
-        }
 
-    };
+        };
 
-
-}
+    }
+};
