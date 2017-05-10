@@ -140,7 +140,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
                 endsAt: new Date(value.end_time * 1000), // Optional - a javascript date object for when the event ends
                 color: { // can also be calendarConfig.colorTypes.warning for shortcuts to the deprecated event types
                     primary: '#e3bc08', // the primary event color (should be darker than secondary)
-                    secondary: '#fdf1ba' // the secondary event color (should be lighter than primary)
+                    secondary: '#fdf1ba'// the secondary event color (should be lighter than primary)
                 },
                 actions: [{ // an array of actions that will be displayed next to the event title
                     label: '<i class=\'glyphicon glyphicon-pencil\'></i>', // the label of the action
