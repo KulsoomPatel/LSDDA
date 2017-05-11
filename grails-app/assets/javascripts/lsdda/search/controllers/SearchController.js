@@ -10,6 +10,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
     vm.searchTerms = undefined;
     vm.searchText = "Search";
     vm.optionsText = "Advanced Search";
+    vm.buttonText = "View Programme Schedule";
+    vm.showCalender = false;
     vm.showTable = false;
     vm.mediaType = undefined;
     vm.isClip = undefined;
@@ -56,6 +58,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
                 vm.results = response;
                 vm.totalItems = vm.results.length;
                 vm.theCalender();
+
+
             })
 
         }
@@ -122,6 +126,20 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
         $location.path("/" + pid);
     };
 
+    vm.displayData = function () {
+
+        if (vm.showCalender === true) {
+            vm.showCalender = false;
+            vm.showTable = true;
+            vm.buttonText = "View Programme Schedule";
+
+        } else if (vm.showTable === true) {
+            vm.showTable = false;
+            vm.showCalender = true;
+            vm.buttonText = "View Results";
+        }
+
+    };
 
     vm.theCalender = function () {
 
