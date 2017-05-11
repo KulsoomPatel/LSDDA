@@ -1,6 +1,14 @@
+import com.mongodb.client.FindIterable
 import lsdda.Programme
 
 model {
-    Iterable<Programme> programmeList
+    FindIterable<Programme> findIterableImpl
 }
-json tmpl.programme(programmeList ?: [])
+
+System.out.println "Model is $binding.variables"
+
+json(
+        findIterableImpl.each {
+            it
+        }
+)

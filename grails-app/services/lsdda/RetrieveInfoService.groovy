@@ -7,6 +7,7 @@ import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Sorts
 import grails.transaction.Transactional
 import org.bson.Document
 
@@ -65,29 +66,25 @@ class RetrieveInfoService {
 
     def textSearch(String value) {
 
-        def count = Programme.countHits(value)
-        List<Programme> programmes = Programme.searchTop(value, count)
+        BasicDBObject criteria = new BasicDBObject();
 
-        return programmes
+        criteria.put('$text', new BasicDBObject('$search', value))
+
+        def scoreProj = ['$meta': "textScore"]
+        def theProj = ["score": scoreProj]
+
+        FindIterable iterable = collection.find(criteria).projection(theProj).sort(theProj)
+
+        return iterable
     }
 
     def advancedQuery(String value, int is_clip, String media_type, String service, Double start_time, Double end_time, String[] tags, String[] cats) {
 
         BasicDBObject criteria = new BasicDBObject();
+        def sorting = ["start_time": -1]
 
         if (value != null) {
             criteria.put('$text', new BasicDBObject('$search', value))
-        }
-        if (is_clip != null) {
-            criteria.put("is_clip", is_clip)
-        }
-
-        if (media_type != null) {
-            criteria.put("media_type", media_type)
-        }
-
-        if (service != null) {
-            criteria.put("service", service)
 
         }
 
@@ -101,9 +98,19 @@ class RetrieveInfoService {
             criteria.put("end_time", new BasicDBObject('$lte', end_time))
         }
 
-        //in the array
-        if (tags.length != 0) {
-            criteria.put("tags", new BasicDBObject('$in', tags))
+        if (service != null) {
+            criteria.put("service", service)
+            sorting.put("service", 1)
+        }
+
+        if (media_type != null) {
+            criteria.put("media_type", media_type)
+            sorting.put("media_type", 1)
+        }
+
+        if (is_clip != null) {
+            criteria.put("is_clip", is_clip)
+            sorting.put("is_clip", 1)
         }
 
         if (cats.length != 0) {
@@ -118,14 +125,28 @@ class RetrieveInfoService {
             for (int i = 1; i <= theCats; i++) {
                 String identifier = "categories.category" + i
 
-                orList.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
+                orList.add(new BasicDBObject(identifier, new BasicDBObject('$in', cats)))
             }
             andList.add(new BasicDBObject('$or', orList))
             criteria.put('$and', andList)
+
         }
 
-        //and by default
-        FindIterable iterable = collection.find(criteria)
+        //in the array
+        if (tags.length != 0) {
+            criteria.put("tags", new BasicDBObject('$all', tags))
+        }
+
+        FindIterable iterable
+        if (value == null) {
+            //and by default
+            iterable = collection.find(criteria).sort(sorting)
+        } else {
+            def scoreProj = ['$meta': "textScore"]
+            def theProj = ["score": scoreProj]
+            iterable = collection.find(criteria).projection(theProj).sort(theProj)
+        }
+
 
         return iterable
     }
@@ -145,7 +166,9 @@ class RetrieveInfoService {
 
         criteria.put("complete_title.name", title)
 
-        FindIterable iterable = collection.find(criteria)
+        def sorting = ["start_time": -1]
+
+        FindIterable iterable = collection.find(criteria).sort(sorting)
 
         return iterable
 
