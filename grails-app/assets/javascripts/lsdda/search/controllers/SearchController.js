@@ -64,9 +64,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
 
             })
-
         }
-
     };
 
     vm.changeOptions = function () {
@@ -155,7 +153,10 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
         var allEvents = [];
         angular.forEach(vm.results, function (value, key) {
-            var show = value.complete_title.name + " " + value.complete_title.series + " " + value.complete_title.episode;
+
+            var show = value.complete_title.name + " " + checkData(value.complete_title.series) + " " + checkData(value.complete_title.episode);
+
+
             var theEventobj = {
                 title: show, // The title of the event
                 startsAt: new Date(value.start_time * 1000), // A javascript date object for when the event starts
@@ -203,6 +204,18 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
         };
 
+    };
+
+
+    var checkData = function (data) {
+
+        var theData = "";
+        if (data !== undefined) {
+
+            theData = data
+        }
+
+        return theData;
     };
 
     var formatDate = function (theDate) {
