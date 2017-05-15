@@ -9,11 +9,14 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
     vm.clipType = undefined;
     vm.currentPage = 1;
     vm.itemsPerPage = 4;
+    vm.showOther = false;
+    vm.resultSize = 0;
 
     DetailServiceFactory.show({action: 'detailedProgramme', pid: $routeParams.pid}, function (response) {
         vm.result = response;
         vm.checkClip(vm.result.is_clip);
-        vm.otherProgrammes()
+        vm.otherProgrammes();
+
     });
 
     vm.otherProgrammes = function () {
@@ -23,6 +26,11 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
         }, function (response) {
             vm.programmeResults = response;
             vm.totalItems = vm.programmeResults.length;
+            
+            if (vm.totalItems > 1) {
+
+                vm.showOther = true;
+            }
         });
     };
 

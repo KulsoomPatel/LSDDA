@@ -213,4 +213,15 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
         }
         return theDate;
     };
+
+    vm.clearAll = function () {
+        vm.searchTerms = undefined;
+        vm.isClip = undefined;
+        vm.mediaType = undefined;
+        vm.service = undefined;
+        vm.dt1 = undefined;
+        vm.dt2 = undefined;
+        vm.selectedTags = [];
+        vm.selectedCats = [];
+    };
 }
