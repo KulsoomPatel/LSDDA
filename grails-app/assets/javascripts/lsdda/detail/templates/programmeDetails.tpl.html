@@ -70,6 +70,7 @@
          ng-repeat="programme in ctrl.programmeResults | filter:search | offset: (ctrl.currentPage - 1) * ctrl.itemsPerPage | limitTo: ctrl.itemsPerPage">
         <hr>
         <div class="col-md-3">
+            <span class="label label-info" ng-show="ctrl.checkProgramme(programme.pid)">This episode</span>
             <h3><a ng-click="ctrl.detailedView(programme.pid)"><b> {{programme.complete_title.name}}</b></a></h3>
         </div>
 
