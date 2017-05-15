@@ -14,7 +14,7 @@ class SearchController {
         respond results, model: [programmeCount: results.size()]
     }
 
-    def advancedSearch(String value, int is_clip, String media_type, String service, Double start_time, Double end_time) {
+    def advancedSearch(String value, Integer is_clip, String media_type, String service, Double start_time, Double end_time) {
 
         String[] tags = params.list("tags")
         String[] cats = params.list("cats")

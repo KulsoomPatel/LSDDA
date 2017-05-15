@@ -35,14 +35,6 @@ class RetrieveInfoService {
         return c.toList().sort()
     }
 
-    def getTheClipType() {
-
-        MongoCursor<String> c =
-                collection.distinct("is_clip", String.class).iterator()
-
-        return c.toList().sort()
-    }
-
     def getTheTags() {
         MongoCursor<String> c =
                 collection.distinct("tags", String.class).iterator()
@@ -86,7 +78,7 @@ class RetrieveInfoService {
         return iterable
     }
 
-    def advancedQuery(String value, int is_clip, String media_type, String service, Double start_time, Double end_time, String[] tags, String[] cats) {
+    def advancedQuery(String value, Integer is_clip, String media_type, String service, Double start_time, Double end_time, String[] tags, String[] cats) {
 
         BasicDBObject criteria = new BasicDBObject();
         def sorting = ["start_time": -1]

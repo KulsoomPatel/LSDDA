@@ -97,10 +97,6 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
         vm.tags = response;
     });
 
-    PopulateDataFactory.list({action: 'getTheClip'}, function (response) {
-        vm.clips = response;
-    });
-
 
     /*The Date stuff*/
     vm.format = 'dd-MMMM-yyyy';
@@ -216,18 +212,5 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
         }
         return theDate;
-    };
-
-    vm.formatClip = function (clip) {
-
-        var theValue = "";
-
-        if (clip === 1) {
-            theValue = "Yes";
-        } else if (clip === 0) {
-            theValue = "No";
-        }
-
-        return theValue;
     };
 }
