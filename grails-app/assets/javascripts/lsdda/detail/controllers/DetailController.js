@@ -26,14 +26,13 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
         }, function (response) {
             vm.programmeResults = response;
             vm.totalItems = vm.programmeResults.length;
-            
+
             if (vm.totalItems > 1) {
 
                 vm.showOther = true;
             }
         });
     };
-
 
     vm.checkClip = function (clip) {
         if (clip === 1) {
@@ -50,5 +49,14 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
     vm.detailedView = function (pid) {
 
         $location.path("/" + pid);
-    }
+    };
+
+    vm.checkProgramme = function (pid) {
+        if (pid === $routeParams.pid) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
 }
