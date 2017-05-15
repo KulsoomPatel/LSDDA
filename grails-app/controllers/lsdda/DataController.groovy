@@ -34,4 +34,11 @@ class DataController {
 
         respond theCategories
     }
+
+    def getTheClip() {
+
+        def theClip = retrieveInfoService.getTheClipType()
+
+        respond theClip
+    }
 }

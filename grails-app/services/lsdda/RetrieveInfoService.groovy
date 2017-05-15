@@ -35,6 +35,14 @@ class RetrieveInfoService {
         return c.toList().sort()
     }
 
+    def getTheClipType() {
+
+        MongoCursor<String> c =
+                collection.distinct("is_clip", String.class).iterator()
+
+        return c.toList().sort()
+    }
+
     def getTheTags() {
         MongoCursor<String> c =
                 collection.distinct("tags", String.class).iterator()

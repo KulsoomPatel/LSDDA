@@ -31,12 +31,10 @@
             <label for="isClip" class="col-md-1 control-label">Clip</label>
             <div class="col-md-5">
                 <select name="isClip" class="form-control" id="isClip" ng-model="ctrl.isClip">
-
-                    <option value="1"> Yes</option>
-                    <option value="0"> No</option>
+                    <option ng-repeat="clip in ctrl.clips" value="{{clip}}"> {{clip}}
+                    </option>
                 </select>
             </div>
-
 
         </div>
 

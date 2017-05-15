@@ -39,8 +39,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
                 is_clip: vm.isClip,
                 media_type: vm.mediaType,
                 service: vm.service,
-                start_time: vm.dt1.getTime() / 1000,
-                end_time: vm.dt2.getTime() / 1000,
+                start_time: formatDate(vm.dt1),
+                end_time: formatDate(vm.dt2),
                 tags: vm.selectedTags,
                 cats: vm.selectedCats
             }, function (response) {
@@ -95,6 +95,10 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
     PopulateDataFactory.list({action: 'getBBCTags'}, function (response) {
         vm.tags = response;
+    });
+
+    PopulateDataFactory.list({action: 'getTheClip'}, function (response) {
+        vm.clips = response;
     });
 
 
@@ -203,5 +207,27 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
         };
 
-    }
-};
+    };
+
+    var formatDate = function (theDate) {
+
+        if (theDate !== undefined) {
+            theDate = theDate.getTime() / 1000;
+
+        }
+        return theDate;
+    };
+
+    vm.formatClip = function (clip) {
+
+        var theValue = "";
+
+        if (clip === 1) {
+            theValue = "Yes";
+        } else if (clip === 0) {
+            theValue = "No";
+        }
+
+        return theValue;
+    };
+}
