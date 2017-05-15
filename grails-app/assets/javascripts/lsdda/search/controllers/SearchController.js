@@ -100,8 +100,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
     /*The Date stuff*/
     vm.format = 'dd-MMMM-yyyy';
-    vm.dt1 = new Date();
-    vm.dt2 = new Date();
+    vm.dt1 = undefined;
+    vm.dt2 = undefined;
     vm.open1 = function () {
         vm.popup1.opened = true;
     };
@@ -150,7 +150,8 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
         //CALENDER STUFF
         vm.cellIsOpen = true;
         vm.calendarView = 'month';
-        vm.viewDate = new Date();
+        var theDate = new Date(vm.results[0].start_time * 1000);
+        vm.viewDate = theDate;
 
         var allEvents = [];
         angular.forEach(vm.results, function (value, key) {
