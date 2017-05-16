@@ -115,24 +115,35 @@ class RetrieveInfoService {
 
         if (cats.length != 0) {
 
-            ArrayList<BasicDBObject> orList = new ArrayList<>()
+            ArrayList<BasicDBObject> orList1 = new ArrayList<>()
+            ArrayList<BasicDBObject> orList2 = new ArrayList<>()
             ArrayList<BasicDBObject> andList = new ArrayList<>()
 
             def catClass = new Categories()
             //minus 1 as the ID is included.
             def theCats = catClass.properties.size() - 1
-
+            String allArrays = ""
             for (int i = 1; i <= theCats; i++) {
-                String identifier = "categories.category" + i
 
-                orList.add(new BasicDBObject(identifier, new BasicDBObject('$in', cats)))
+                String identifier = "categories.category" + i
+                allArrays = allArrays + ", " + identifier
+
+                orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
+
             }
-            andList.add(new BasicDBObject('$or', orList))
+
+            allArrays = allArrays.replaceFirst(",", "")
+            BasicDBObject megaArray = new BasicDBObject('$setUnion', allArrays)
+
+            
+            andList.add(new BasicDBObject('$or', orList1))
+            andList.add(new BasicDBObject('$or', orList2))
             criteria.put('$and', andList)
 
         }
 
         //in the array
+
         if (tags.length != 0) {
             criteria.put("tags", new BasicDBObject('$all', tags))
         }

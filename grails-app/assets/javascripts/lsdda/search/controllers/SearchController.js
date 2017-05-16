@@ -45,9 +45,9 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
                 cats: vm.selectedCats
             }, function (response) {
                 vm.results = response;
+                vm.totalItems = vm.results.length;
                 vm.showTable = true;
                 vm.showCalender = false;
-                vm.totalItems = vm.results.length;
                 vm.theCalender();
                 vm.buttonText = "View Programme Schedule";
             })
@@ -55,13 +55,12 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
         } else if (vm.displayOptions === false) {
 
             SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
-                vm.showTable = true;
                 vm.results = response;
                 vm.totalItems = vm.results.length;
+                vm.showTable = true;
                 vm.showCalender = false;
                 vm.theCalender();
                 vm.buttonText = "View Programme Schedule";
-
 
             })
         }

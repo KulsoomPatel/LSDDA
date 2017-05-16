@@ -84,14 +84,6 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-md-1 control-label"> Selected Categories</label>
-            <div class="col-md-5">
-                <p></p>
-            </div>
-        </div>
-
-
     </div>
 
     <div class="form-group">
@@ -155,11 +147,13 @@
 
                     </div>
                     <div class="col-md-3">
-                        <p><b> Available From : </b>{{programme.start_time * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'}}
+                        <p><b> Available From : </b>{{programme.start_time * 1000 | date:'EEEE, MMMM d, y, h:mm:ss
+                            a'}}
                         </p>
                     </div>
                     <div class="col-md-3">
-                        <p><b>Available Until : </b> {{programme.end_time * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'}}
+                        <p><b>Available Until : </b> {{programme.end_time * 1000 | date:'EEEE, MMMM d, y, h:mm:ss
+                            a'}}
                         </p>
                     </div>
 
