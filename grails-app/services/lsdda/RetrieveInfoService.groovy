@@ -82,6 +82,7 @@ class RetrieveInfoService {
 
         BasicDBObject criteria = new BasicDBObject();
         def sorting = ["start_time": -1]
+        BasicDBObject theProjecttions = new BasicDBObject()
 
         if (value != null) {
             criteria.put('$text', new BasicDBObject('$search', value))
@@ -116,7 +117,7 @@ class RetrieveInfoService {
         if (cats.length != 0) {
 
             ArrayList<BasicDBObject> orList1 = new ArrayList<>()
-            ArrayList<BasicDBObject> theMegaArray = new ArrayList<>()
+            ArrayList<String> theMegaArray = new ArrayList<>()
             ArrayList<BasicDBObject> orList2 = new ArrayList<>()
             ArrayList<BasicDBObject> andList = new ArrayList<>()
 
@@ -127,13 +128,15 @@ class RetrieveInfoService {
             for (int i = 1; i <= theCats; i++) {
 
                 String identifier = "categories.category" + i
+                theMegaArray.add("\$" + identifier)
                 orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
 
             }
 
-
             andList.add(new BasicDBObject('$or', orList1))
+            //andList.add(new BasicDBObject('$or', orList2))
             criteria.put('$and', andList)
+            theProjecttions.put()
 
         }
 
@@ -148,11 +151,14 @@ class RetrieveInfoService {
             //and by default
             iterable = collection.find(criteria).sort(sorting)
         } else {
-            def scoreProj = ['$meta': "textScore"]
-            def theProj = ["score": scoreProj]
-            iterable = collection.find(criteria).projection(theProj).sort(theProj)
-        }
 
+            BasicDBObject scoreProj = new BasicDBObject('$meta': "textScore")
+            BasicDBObject theProj = new BasicDBObject("score": scoreProj)
+
+            theProjecttions.put("score", scoreProj)
+
+            iterable = collection.find(criteria).projection(theProjecttions).sort(theProj)
+        }
 
         return iterable
     }
