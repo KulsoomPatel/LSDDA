@@ -115,9 +115,9 @@ class RetrieveInfoService {
         }
 
         if (cats.length != 0) {
-
+            def arrayMap = [:]
             ArrayList<BasicDBObject> orList1 = new ArrayList<>()
-            ArrayList<String> theMegaArray = new ArrayList<>()
+            BasicDBObject theMegaArray = new BasicDBObject()
             ArrayList<BasicDBObject> orList2 = new ArrayList<>()
             ArrayList<BasicDBObject> andList = new ArrayList<>()
 
@@ -128,15 +128,16 @@ class RetrieveInfoService {
             for (int i = 1; i <= theCats; i++) {
 
                 String identifier = "categories.category" + i
-                theMegaArray.add("\$" + identifier)
+                def emptyArray = []
+                theMegaArray.put('$ifNull', new BasicDBObject("\$" + identifier, emptyArray))
                 orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
 
             }
 
+            theProjecttions.put("allCats", new BasicDBObject('$filter', new BasicDBObject("input", new BasicDBObject('$setUnion', theMegaArray))))
             andList.add(new BasicDBObject('$or', orList1))
             //andList.add(new BasicDBObject('$or', orList2))
             criteria.put('$and', andList)
-            theProjecttions.put()
 
         }
 
