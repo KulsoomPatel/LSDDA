@@ -110,7 +110,6 @@
 </div>
 <div ng-show="ctrl.showTable">
 
-
     <div ng-repeat="programme in ctrl.results | filter:search | offset: (ctrl.currentPage - 1) * ctrl.itemsPerPage | limitTo: ctrl.itemsPerPage">
 
         <div class="panel panel-default">
@@ -235,6 +234,12 @@
     </mwl-calendar>
 </div>
 
+<div class="row" ng-show="ctrl.noResults">
+    <div class="col-md-12">
+        <h3><b> No Results Found</b></h3>
+
+    </div>
+</div>
 
 
 

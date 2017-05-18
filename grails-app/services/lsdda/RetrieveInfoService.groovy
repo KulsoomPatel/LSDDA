@@ -117,7 +117,7 @@ class RetrieveInfoService {
             sorting.put("is_clip", 1)
         }
 
-        if (cats.length != 0) {
+       /* if (cats.length != 0) {
 
             ArrayList<BasicDBObject> orList1 = new ArrayList<>()
             ArrayList<BasicDBObject> orList2 = new ArrayList<>()
@@ -132,21 +132,27 @@ class RetrieveInfoService {
 
                 String identifier = "categories.category" + i
                 String cleanIdentifier = "\$" + identifier
+                //If the category does not exist, put in a blank category
                 def temp = [cleanIdentifier, []]
                 theMegaArray.add(new BasicDBObject('$ifNull', temp))
+
                 orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
 
             }
 
-
-            BasicDBObject theFilter = new BasicDBObject("input", new BasicDBObject('$setUnion', theMegaArray))
-            theProjections.put("allValues", new BasicDBObject('$filter', theFilter))
+            //The megaArray is the array created in the above loop which combines all arrays
+            BasicDBObject theData = new BasicDBObject('$setUnion', theMegaArray)
+            BasicDBObject theFilter = new BasicDBObject('input', theData)
+            theFilter.put("as", "megaArray")
+            //all of the values found in cats should match the megaArray
+            theFilter.put("cond", new BasicDBObject('$all', ["\$\$megaArray", cats]))
+            theProjections.put('$filter', theFilter)
 
             andList.add(new BasicDBObject('$or', orList1))
-            //andList.add(new BasicDBObject('$or', orList2))
+            *//*andList.add(new BasicDBObject('$or', orList2))*//*
             criteria.put('$and', andList)
 
-        }
+        }*/
 
         //in the array
 

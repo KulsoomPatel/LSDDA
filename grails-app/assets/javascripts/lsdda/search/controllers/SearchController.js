@@ -8,6 +8,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
 
     var vm = this;
     vm.searchTerms = undefined;
+    vm.noResults = false;
     vm.searchText = "Search";
     vm.optionsText = "Advanced Search";
     vm.showCalender = false;
@@ -46,10 +47,19 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
             }, function (response) {
                 vm.results = response;
                 vm.totalItems = vm.results.length;
-                vm.showTable = true;
-                vm.showCalender = false;
-                vm.theCalender();
-                vm.buttonText = "View Programme Schedule";
+
+                if (vm.totalItems > 0) {
+                    vm.showTable = true;
+                    vm.showCalender = false;
+                    vm.theCalender();
+                    vm.buttonText = "View Programme Schedule";
+                    vm.noResults = false;
+                } else {
+                    vm.showCalender = false;
+                    vm.showTable = false;
+                    vm.noResults = true;
+                }
+
             })
 
         } else if (vm.displayOptions === false) {
@@ -57,10 +67,17 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
             SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
                 vm.results = response;
                 vm.totalItems = vm.results.length;
-                vm.showTable = true;
-                vm.showCalender = false;
-                vm.theCalender();
-                vm.buttonText = "View Programme Schedule";
+                if (vm.totalItems > 0) {
+                    vm.showTable = true;
+                    vm.showCalender = false;
+                    vm.theCalender();
+                    vm.buttonText = "View Programme Schedule";
+                    vm.noResults = false;
+                } else {
+                    vm.showCalender = false;
+                    vm.showTable = false;
+                    vm.noResults = true;
+                }
 
             })
         }
