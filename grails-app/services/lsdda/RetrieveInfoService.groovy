@@ -69,16 +69,33 @@ class RetrieveInfoService {
 
     def textSearch(String value) {
 
-        BasicDBObject criteria = new BasicDBObject();
+        FindIterable iterable
 
-        criteria.put('$text', new BasicDBObject('$search', value))
+        if (value != null) {
+            BasicDBObject criteria = new BasicDBObject();
 
-        def scoreProj = ['$meta': "textScore"]
-        def theProj = ["score": scoreProj]
+            criteria.put('$text', new BasicDBObject('$search', value))
 
-        FindIterable iterable = collection.find(criteria).projection(theProj).sort(theProj)
+            def scoreProj = ['$meta': "textScore"]
+            def theProj = ["score": scoreProj]
 
-        return iterable
+            iterable = collection.find(criteria).projection(theProj).sort(theProj)
+
+            return iterable
+        } else {
+            
+            def sorting = [:]
+            sorting.put("start_time", -1)
+            sorting.put("complete_title.name", 1)
+            sorting.put("service", 1)
+            sorting.put("media_type", 1)
+
+            iterable = collection.find().sort(sorting)
+
+            return iterable
+        }
+
+
     }
 
     def advancedQuery(String value, Integer is_clip, String media_type, String service, Double start_time, Double end_time, String[] tags, String[] cats) {
@@ -117,42 +134,42 @@ class RetrieveInfoService {
             sorting.put("is_clip", 1)
         }
 
-       /* if (cats.length != 0) {
+        /* if (cats.length != 0) {
 
-            ArrayList<BasicDBObject> orList1 = new ArrayList<>()
-            ArrayList<BasicDBObject> orList2 = new ArrayList<>()
-            ArrayList<BasicDBObject> andList = new ArrayList<>()
-            ArrayList<BasicDBObject> theMegaArray = new ArrayList<>()
+             ArrayList<BasicDBObject> orList1 = new ArrayList<>()
+             ArrayList<BasicDBObject> orList2 = new ArrayList<>()
+             ArrayList<BasicDBObject> andList = new ArrayList<>()
+             ArrayList<BasicDBObject> theMegaArray = new ArrayList<>()
 
-            def catClass = new Categories()
-            //minus 1 as the ID is included.
-            def theCats = catClass.properties.size() - 1
+             def catClass = new Categories()
+             //minus 1 as the ID is included.
+             def theCats = catClass.properties.size() - 1
 
-            for (int i = 1; i <= theCats; i++) {
+             for (int i = 1; i <= theCats; i++) {
 
-                String identifier = "categories.category" + i
-                String cleanIdentifier = "\$" + identifier
-                //If the category does not exist, put in a blank category
-                def temp = [cleanIdentifier, []]
-                theMegaArray.add(new BasicDBObject('$ifNull', temp))
+                 String identifier = "categories.category" + i
+                 String cleanIdentifier = "\$" + identifier
+                 //If the category does not exist, put in a blank category
+                 def temp = [cleanIdentifier, []]
+                 theMegaArray.add(new BasicDBObject('$ifNull', temp))
 
-                orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
+                 orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
 
-            }
+             }
 
-            //The megaArray is the array created in the above loop which combines all arrays
-            BasicDBObject theData = new BasicDBObject('$setUnion', theMegaArray)
-            BasicDBObject theFilter = new BasicDBObject('input', theData)
-            theFilter.put("as", "megaArray")
-            //all of the values found in cats should match the megaArray
-            theFilter.put("cond", new BasicDBObject('$all', ["\$\$megaArray", cats]))
-            theProjections.put('$filter', theFilter)
+             //The megaArray is the array created in the above loop which combines all arrays
+             BasicDBObject theData = new BasicDBObject('$setUnion', theMegaArray)
+             BasicDBObject theFilter = new BasicDBObject('input', theData)
+             theFilter.put("as", "megaArray")
+             //all of the values found in cats should match the megaArray
+             theFilter.put("cond", new BasicDBObject('$all', ["\$\$megaArray", cats]))
+             theProjections.put('$filter', theFilter)
 
-            andList.add(new BasicDBObject('$or', orList1))
-            *//*andList.add(new BasicDBObject('$or', orList2))*//*
-            criteria.put('$and', andList)
+             andList.add(new BasicDBObject('$or', orList1))
+             *//*andList.add(new BasicDBObject('$or', orList2))*//*
+             criteria.put('$and', andList)
 
-        }*/
+         }*/
 
         //in the array
 
