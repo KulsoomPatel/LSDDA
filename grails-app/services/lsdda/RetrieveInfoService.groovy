@@ -7,6 +7,7 @@ import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts
 import grails.transaction.Transactional
 import org.bson.Document
@@ -84,7 +85,7 @@ class RetrieveInfoService {
 
         BasicDBObject criteria = new BasicDBObject();
         def sorting = ["start_time": -1]
-        BasicDBObject theProjecttions = new BasicDBObject()
+        BasicDBObject theProjections = new BasicDBObject()
 
         if (value != null) {
             criteria.put('$text', new BasicDBObject('$search', value))
@@ -119,7 +120,9 @@ class RetrieveInfoService {
         if (cats.length != 0) {
 
             ArrayList<BasicDBObject> orList1 = new ArrayList<>()
+            ArrayList<BasicDBObject> orList2 = new ArrayList<>()
             ArrayList<BasicDBObject> andList = new ArrayList<>()
+            ArrayList<BasicDBObject> theMegaArray = new ArrayList<>()
 
             def catClass = new Categories()
             //minus 1 as the ID is included.
@@ -128,9 +131,16 @@ class RetrieveInfoService {
             for (int i = 1; i <= theCats; i++) {
 
                 String identifier = "categories.category" + i
+                String cleanIdentifier = "\$" + identifier
+                def temp = [cleanIdentifier, []]
+                theMegaArray.add(new BasicDBObject('$ifNull', temp))
                 orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
 
             }
+
+
+            BasicDBObject theFilter = new BasicDBObject("input", new BasicDBObject('$setUnion', theMegaArray))
+            theProjections.put("allValues", new BasicDBObject('$filter', theFilter))
 
             andList.add(new BasicDBObject('$or', orList1))
             //andList.add(new BasicDBObject('$or', orList2))
@@ -153,9 +163,9 @@ class RetrieveInfoService {
             BasicDBObject scoreProj = new BasicDBObject('$meta': "textScore")
             BasicDBObject theProj = new BasicDBObject("score": scoreProj)
 
-            theProjecttions.put("score", scoreProj)
+            theProjections.put("score", scoreProj)
 
-            iterable = collection.find(criteria).projection(theProjecttions).sort(theProj)
+            iterable = collection.find(criteria).projection(theProjections).sort(theProj)
         }
 
         return iterable
