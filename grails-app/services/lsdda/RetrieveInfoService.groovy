@@ -11,6 +11,8 @@ import com.mongodb.client.model.Sorts
 import grails.transaction.Transactional
 import org.bson.Document
 
+import javax.persistence.Basic
+
 
 @Transactional
 class RetrieveInfoService {
@@ -115,10 +117,8 @@ class RetrieveInfoService {
         }
 
         if (cats.length != 0) {
-            def arrayMap = [:]
+
             ArrayList<BasicDBObject> orList1 = new ArrayList<>()
-            BasicDBObject theMegaArray = new BasicDBObject()
-            ArrayList<BasicDBObject> orList2 = new ArrayList<>()
             ArrayList<BasicDBObject> andList = new ArrayList<>()
 
             def catClass = new Categories()
@@ -128,13 +128,10 @@ class RetrieveInfoService {
             for (int i = 1; i <= theCats; i++) {
 
                 String identifier = "categories.category" + i
-                def emptyArray = []
-                theMegaArray.put('$ifNull', new BasicDBObject("\$" + identifier, emptyArray))
                 orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
 
             }
 
-            theProjecttions.put("allCats", new BasicDBObject('$filter', new BasicDBObject("input", new BasicDBObject('$setUnion', theMegaArray))))
             andList.add(new BasicDBObject('$or', orList1))
             //andList.add(new BasicDBObject('$or', orList2))
             criteria.put('$and', andList)
