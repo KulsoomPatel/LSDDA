@@ -33,7 +33,6 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
     vm.searchData = function () {
 
         if (vm.displayOptions === true) {
-
             SearchDataFactory.list({
                 action: 'advancedSearch',
                 value: vm.searchTerms,
@@ -239,11 +238,13 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
     var formatDate = function (theDate) {
 
         if (theDate !== undefined) {
+
             theDate = theDate.getTime() / 1000;
 
         }
         return theDate;
     };
+
 
     vm.clearAll = function () {
         vm.searchTerms = undefined;

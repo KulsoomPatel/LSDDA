@@ -97,7 +97,6 @@ class RetrieveInfoService {
             return iterable
         }
 
-
     }
 
     def advancedQuery(String value, Integer is_clip, String media_type, String service, Double start_time, Double end_time, String[] tags, String[] cats) {
@@ -129,12 +128,13 @@ class RetrieveInfoService {
 
         sorting.put("start_time", -1)
         if (start_time != null) {
-
+            start_time = start_time - 86400
             criteria.put("start_time", new BasicDBObject('$gte', start_time))
 
         }
 
         if (end_time != null) {
+            end_time = end_time + 86400
             criteria.put("end_time", new BasicDBObject('$lte', end_time))
         }
 
