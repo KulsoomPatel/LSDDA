@@ -17,9 +17,9 @@ class SearchController {
     def advancedSearch(String value, Integer is_clip, String media_type, String service, Double start_time, Double end_time) {
 
         String[] tags = params.list("tags")
-       /* String[] cats = params.list("cats")*/
+        String[] cats = params.list("cats")
 
-        String [] cats = ["factual"]
+
         def results = retrieveInfoService.advancedQuery(value, is_clip, media_type, service, start_time, end_time, tags, cats)
 
         respond results, model: [programmeCount: results.size()]

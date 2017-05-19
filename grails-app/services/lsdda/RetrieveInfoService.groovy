@@ -126,10 +126,10 @@ class RetrieveInfoService {
             sorting.put('score', new BasicDBObject('$meta', "textScore"))
         }
 
+        sorting.put("start_time", -1)
         if (start_time != null) {
 
             criteria.put("start_time", new BasicDBObject('$gte', start_time))
-            sorting.put("start_time", -1)
 
         }
 
@@ -153,7 +153,25 @@ class RetrieveInfoService {
 
         if (cats.length != 0) {
 
+            ArrayList<BasicDBObject> orList1 = new ArrayList<>()
+            ArrayList<BasicDBObject> orList2 = new ArrayList<>()
+            ArrayList<BasicDBObject> andList = new ArrayList<>()
 
+            def catClass = new Categories()
+
+            //minus 1 as the ID is included.
+            def theCats = catClass.properties.size() - 1
+
+            for (int i = 1; i <= theCats; i++) {
+
+                String identifier = "categories.category" + i
+                String cleanIdentifier = "\$" + identifier
+
+                orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
+            }
+
+            andList.add(new BasicDBObject('$or', orList1))
+            criteria.put('$and', andList)
         }
 
         //in the array
@@ -169,7 +187,6 @@ class RetrieveInfoService {
 
         //and by default
         iterable = collection.aggregate(pipeline)
-
 
 
         return iterable
