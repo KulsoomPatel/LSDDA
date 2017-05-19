@@ -73,7 +73,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
                     vm.showTable = true;
                     vm.showCalender = false;
                     vm.theCalender();
-                    vm.buttonText = "View Programme Schedule";
+                    vm.buttonText = "View Programme Calender";
                     vm.noResults = false;
                 } else {
                     vm.showCalender = false;
