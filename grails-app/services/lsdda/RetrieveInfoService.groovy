@@ -185,8 +185,8 @@ class RetrieveInfoService {
             criteria.put("tags", new BasicDBObject('$all', tags))
         }
 
-        pipeline.add(new BasicDBObject('$project', theProjections))
         pipeline.add(new BasicDBObject('$match', criteria))
+        pipeline.add(new BasicDBObject('$project', theProjections))
         pipeline.add(new BasicDBObject('$sort', sorting))
 
         //and by default
