@@ -105,6 +105,7 @@ class RetrieveInfoService {
 
         List<BasicDBObject> pipeline = new ArrayList<>()
         BasicDBObject criteria = new BasicDBObject()
+        BasicDBObject criteriaCat = new BasicDBObject()
         BasicDBObject theProjections = new BasicDBObject()
         BasicDBObject sorting = new BasicDBObject()
         AggregateIterable iterable
@@ -176,7 +177,7 @@ class RetrieveInfoService {
             orList.add(new BasicDBObject("allCategories", new BasicDBObject('$all', cats)))
 
             andList.add(new BasicDBObject('$or', orList))
-            criteria.put('$and', andList)
+            criteriaCat.put('$and', andList)
         }
 
         //in the array
@@ -187,11 +188,14 @@ class RetrieveInfoService {
 
         pipeline.add(new BasicDBObject('$match', criteria))
         pipeline.add(new BasicDBObject('$project', theProjections))
+
+        if (cats.length != 0) {
+            pipeline.add(new BasicDBObject('$match', criteriaCat))
+        }
         pipeline.add(new BasicDBObject('$sort', sorting))
 
         //and by default
         iterable = collection.aggregate(pipeline)
-
 
         return iterable
     }

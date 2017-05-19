@@ -47,6 +47,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
             }, function (response) {
                 vm.results = response;
                 vm.totalItems = vm.results.length;
+                vm.currentPage = 1;
 
                 if (vm.totalItems > 0) {
                     vm.showTable = true;
@@ -67,6 +68,7 @@ function SearchController(SearchDataFactory, PopulateDataFactory, $routeParams, 
             SearchDataFactory.list({action: 'searchData', value: vm.searchTerms}, function (response) {
                 vm.results = response;
                 vm.totalItems = vm.results.length;
+                vm.currentPage = 1;
                 if (vm.totalItems > 0) {
                     vm.showTable = true;
                     vm.showCalender = false;

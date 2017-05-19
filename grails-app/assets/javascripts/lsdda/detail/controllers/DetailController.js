@@ -26,6 +26,7 @@ function DetailController(DetailServiceFactory, $routeParams, $location) {
         }, function (response) {
             vm.programmeResults = response;
             vm.totalItems = vm.programmeResults.length;
+            vm.currentPage = 1;
 
             if (vm.totalItems > 1) {
 
