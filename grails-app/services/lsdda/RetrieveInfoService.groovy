@@ -2,7 +2,9 @@ package lsdda
 
 import com.mongodb.BasicDBList
 import com.mongodb.BasicDBObject
+import com.mongodb.DBObject
 import com.mongodb.MongoClient
+import com.mongodb.client.AggregateIterable
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
@@ -83,7 +85,7 @@ class RetrieveInfoService {
 
             return iterable
         } else {
-            
+
             def sorting = [:]
             sorting.put("start_time", -1)
             sorting.put("complete_title.name", 1)
@@ -100,22 +102,38 @@ class RetrieveInfoService {
 
     def advancedQuery(String value, Integer is_clip, String media_type, String service, Double start_time, Double end_time, String[] tags, String[] cats) {
 
-        BasicDBObject criteria = new BasicDBObject();
-        def sorting = ["start_time": -1]
+
+        List<BasicDBObject> pipeline = new ArrayList<>()
+        BasicDBObject criteria = new BasicDBObject()
         BasicDBObject theProjections = new BasicDBObject()
+        BasicDBObject sorting = new BasicDBObject()
+        AggregateIterable iterable
+
+        theProjections.put("_id", 1)
+        theProjections.put("pid", 1)
+        theProjections.put("start_time", 1)
+        theProjections.put("end_time", 1)
+        theProjections.put("complete_title", 1)
+        theProjections.put("media_type", 1)
+        theProjections.put("service", 1)
+        theProjections.put("is_clip", 1)
+        theProjections.put("categories", 1)
+        theProjections.put("tags", 1)
 
         if (value != null) {
-            criteria.put('$text', new BasicDBObject('$search', value))
 
+            criteria.put('$text', new BasicDBObject('$search', value))
+            sorting.put('score', new BasicDBObject('$meta', "textScore"))
         }
 
         if (start_time != null) {
-            //greater than or equal to
+
             criteria.put("start_time", new BasicDBObject('$gte', start_time))
+            sorting.put("start_time", -1)
+
         }
 
         if (end_time != null) {
-            //less than or equal to
             criteria.put("end_time", new BasicDBObject('$lte', end_time))
         }
 
@@ -131,45 +149,12 @@ class RetrieveInfoService {
 
         if (is_clip != null) {
             criteria.put("is_clip", is_clip)
-            sorting.put("is_clip", 1)
         }
 
-        /* if (cats.length != 0) {
+        if (cats.length != 0) {
 
-             ArrayList<BasicDBObject> orList1 = new ArrayList<>()
-             ArrayList<BasicDBObject> orList2 = new ArrayList<>()
-             ArrayList<BasicDBObject> andList = new ArrayList<>()
-             ArrayList<BasicDBObject> theMegaArray = new ArrayList<>()
 
-             def catClass = new Categories()
-             //minus 1 as the ID is included.
-             def theCats = catClass.properties.size() - 1
-
-             for (int i = 1; i <= theCats; i++) {
-
-                 String identifier = "categories.category" + i
-                 String cleanIdentifier = "\$" + identifier
-                 //If the category does not exist, put in a blank category
-                 def temp = [cleanIdentifier, []]
-                 theMegaArray.add(new BasicDBObject('$ifNull', temp))
-
-                 orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
-
-             }
-
-             //The megaArray is the array created in the above loop which combines all arrays
-             BasicDBObject theData = new BasicDBObject('$setUnion', theMegaArray)
-             BasicDBObject theFilter = new BasicDBObject('input', theData)
-             theFilter.put("as", "megaArray")
-             //all of the values found in cats should match the megaArray
-             theFilter.put("cond", new BasicDBObject('$all', ["\$\$megaArray", cats]))
-             theProjections.put('$filter', theFilter)
-
-             andList.add(new BasicDBObject('$or', orList1))
-             *//*andList.add(new BasicDBObject('$or', orList2))*//*
-             criteria.put('$and', andList)
-
-         }*/
+        }
 
         //in the array
 
@@ -177,19 +162,15 @@ class RetrieveInfoService {
             criteria.put("tags", new BasicDBObject('$all', tags))
         }
 
-        FindIterable iterable
-        if (value == null) {
-            //and by default
-            iterable = collection.find(criteria).sort(sorting)
-        } else {
 
-            BasicDBObject scoreProj = new BasicDBObject('$meta': "textScore")
-            BasicDBObject theProj = new BasicDBObject("score": scoreProj)
+        pipeline.add(new BasicDBObject('$match', criteria))
+        pipeline.add(new BasicDBObject('$project', theProjections))
+        pipeline.add(new BasicDBObject('$sort', sorting))
 
-            theProjections.put("score", scoreProj)
+        //and by default
+        iterable = collection.aggregate(pipeline)
 
-            iterable = collection.find(criteria).projection(theProjections).sort(theProj)
-        }
+
 
         return iterable
     }

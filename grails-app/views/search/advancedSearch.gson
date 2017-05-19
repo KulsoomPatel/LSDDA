@@ -1,14 +1,14 @@
-import com.mongodb.client.FindIterable
+import com.mongodb.client.AggregateIterable
 import lsdda.Programme
 
 model {
-    FindIterable<Programme> findIterableImpl
+    AggregateIterable<Programme> aggregateIterableImpl
 }
 
 System.out.println "Model is $binding.variables"
 
 json(
-        findIterableImpl.each {
+        aggregateIterableImpl.each {
             it
         }
 )
