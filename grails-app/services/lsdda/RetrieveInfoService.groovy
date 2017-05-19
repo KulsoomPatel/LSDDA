@@ -153,9 +153,9 @@ class RetrieveInfoService {
 
         if (cats.length != 0) {
 
-            ArrayList<BasicDBObject> orList1 = new ArrayList<>()
-            ArrayList<BasicDBObject> orList2 = new ArrayList<>()
+            ArrayList<BasicDBObject> orList = new ArrayList<>()
             ArrayList<BasicDBObject> andList = new ArrayList<>()
+            BasicDBList theMegaArray = new BasicDBList()
 
             def catClass = new Categories()
 
@@ -165,12 +165,17 @@ class RetrieveInfoService {
             for (int i = 1; i <= theCats; i++) {
 
                 String identifier = "categories.category" + i
-                String cleanIdentifier = "\$" + identifier
+                String cleanIdentifier = '$' + identifier
+                //If the category does not exist, put in a blank category
+                theMegaArray.add(new BasicDBObject('$ifNull', Arrays.asList(cleanIdentifier, Collections.EMPTY_LIST)))
 
-                orList1.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
+                orList.add(new BasicDBObject(identifier, new BasicDBObject('$all', cats)))
             }
 
-            andList.add(new BasicDBObject('$or', orList1))
+            theProjections.put("allCategories", new BasicDBObject('$setUnion', theMegaArray))
+            orList.add(new BasicDBObject("allCategories", new BasicDBObject('$all', cats)))
+
+            andList.add(new BasicDBObject('$or', orList))
             criteria.put('$and', andList)
         }
 
@@ -180,9 +185,8 @@ class RetrieveInfoService {
             criteria.put("tags", new BasicDBObject('$all', tags))
         }
 
-
-        pipeline.add(new BasicDBObject('$match', criteria))
         pipeline.add(new BasicDBObject('$project', theProjections))
+        pipeline.add(new BasicDBObject('$match', criteria))
         pipeline.add(new BasicDBObject('$sort', sorting))
 
         //and by default
